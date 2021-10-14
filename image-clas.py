@@ -1,10 +1,12 @@
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras.preprocessing.image import load_img
-from tensorflow.keras.models import load_model
-import numpy as np
-import cv2
-
+try:
+	from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+	from tensorflow.keras.preprocessing.image import img_to_array
+	from tensorflow.keras.preprocessing.image import load_img
+	from tensorflow.keras.models import load_model
+	import numpy as np
+	import cv2
+except ImportError as eImp:
+    print(f"Ocurrió el error de importación: {eImp}")
 
 def detect_and_predict_mask(frame, faceNet, maskNet):
     # grab the dimensions of the frame and then construct a blob
@@ -74,14 +76,14 @@ if __name__ == '__main__':
 
     try:
         # load our serialized face detector model from disk
-        prototxtPath = r"face_detector\deploy.prototxt"
-        weightsPath = r"face_detector\res10_300x300_ssd_iter_140000.caffemodel"
+        prototxtPath = r"face_detector/deploy.prototxt"
+        weightsPath = r"face_detector/res10_300x300_ssd_iter_140000.caffemodel"
         faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 
         # load the face mask detector model from disk
         maskNet = load_model("mask_detector.model")
 
-        image = load_img('mask-1.png', target_size=(400, 400))
+        image = load_img('/img/mask-1.png', target_size=(400, 400))
         frame = img_to_array(image)
 
         # detect faces in the frame and determine if they are wearing a
