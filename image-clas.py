@@ -79,7 +79,7 @@ if __name__ == '__main__':
         faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 
         # load the face mask detector model from disk
-        maskNet = load_model("mask_detector.model")
+        maskNet = load_model("mask_detector_raspi.model")
 
         print("opening image ...")
 
