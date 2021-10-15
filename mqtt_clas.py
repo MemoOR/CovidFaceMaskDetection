@@ -12,8 +12,11 @@ def on_message(client, userdata, message):
     time.sleep(1)
 
     print("opening image ...")
+    filename = str(message.payload.decode("utf-8"))
+    filepath = f"/home/memoor/.node-red/public/img/{filename}"
+    print(filepath)
 
-    image = load_img('./img/message', target_size=(400, 400))
+    image = load_img(filepath, target_size=(400, 400))
     frame = img_to_array(image)
 
     print("image opened")
@@ -33,7 +36,7 @@ def on_message(client, userdata, message):
         # determine the class label and color we'll use to draw
         # the bounding box and text
         wearing = True if mask > withoutMask else False
-    print(wearing)
+    print(preds)
 
     client.publish("/P3/succes", wearing) #publish
 
@@ -98,6 +101,7 @@ def detect_and_predict_mask(frame, faceNet, maskNet):
         faces = np.array(faces, dtype="float32")
         preds = maskNet.predict(faces, batch_size=32)
 
+    print(len(faces))
     # return a 2-tuple of the face locations and their corresponding
     # locations
     return (locs, preds)
